@@ -34,11 +34,13 @@ export const Register = () => {
       const resData = await res.json();
       console.log(resData);
       setModal(true);
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
-    <div className="flex bg-[#0D1117] min-h-screen flex-col justify-center items-center">
+    <div className="flex bg-back min-h-screen flex-col justify-center items-center">
       <p className="text-3xl font-bold text-center mb-6 text-white">
         Procrasti<span className="text-[#FF6166]">QUEST</span>
       </p>
