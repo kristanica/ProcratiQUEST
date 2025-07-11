@@ -24,10 +24,14 @@ const Login = () => {
         console.log(error);
         return;
       }
-      const resData = await res.json();
-      console.log(resData);
-      navigate("/homepage");
-    } catch (error) {}
+      const userData = await res.json();
+
+      localStorage.setItem("userInfo", JSON.stringify(userData.user));
+
+      navigate(`/homepage`);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

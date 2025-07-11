@@ -1,4 +1,3 @@
-import React from "react";
 import NavigationBar from "../../assets/components/global/NavigationBar";
 
 export const Profile = () => {
