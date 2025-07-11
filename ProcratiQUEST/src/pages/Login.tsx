@@ -7,16 +7,25 @@ const Login = () => {
   const [password, setPassword] = useState<string>("");
   const navigate = useNavigate();
 
-  const useLogin = async (id: number) => {
+  const useLogin = async () => {
     try {
-      const res = await fetch(`http://localhost:8080/users/${id}`, {
-        method: "GET",
+      const res = await fetch(`http://localhost:8080/auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: userName,
+          password: password,
+        }),
       });
       if (!res.ok) {
         const error = await res.json();
         console.log(error);
         return;
       }
+      const resData = await res.json();
+      console.log(resData);
       navigate("/homepage");
     } catch (error) {}
   };
@@ -37,7 +46,7 @@ const Login = () => {
             type="text"
             value={userName}
             placeholder="Enter your Username "
-            className="w-full my-3 bg-[#0a0114] rounded-lg p-3 placeholder:text-sm placeholder:font-medium text-whiteborder-[#ff00aa] border-[3px] border-[#ff00aa] placeholder:text-[#c3c3c3] focus:border-[#00faff]"
+            className="w-full my-3 bg-[#0a0114] text-white rounded-lg p-3 placeholder:text-sm placeholder:font-medium text-whiteborder-[#ff00aa] border-[3px] border-[#ff00aa] placeholder:text-[#c3c3c3] focus:border-[#00faff]"
             onChange={(e) => setUserName(e.target.value)}
           />
 
@@ -54,7 +63,7 @@ const Login = () => {
           />
           <div className="flex justify-center items-center">
             <button
-              onClick={() => navigate("/homepage")}
+              onClick={() => useLogin()}
               type="button"
               className="bg-[#ff00aa] py-2 px-7 rounded-2xl cursor-pointer text-white font-bold w-2xs"
             >

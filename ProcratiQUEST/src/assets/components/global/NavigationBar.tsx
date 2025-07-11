@@ -12,22 +12,20 @@ const NavigationBar = () => {
           </p>
 
           {navigation.map((item) => (
-            <>
-              <NavLink
-                key={item.id}
-                to={item.to}
-                className={({ isActive }) =>
-                  [
-                    isActive
-                      ? "text-black flex flex-row items-center gap-2"
-                      : " flex flex-row items-center gap-2",
-                  ].join("")
-                }
-              >
-                <item.icon />
-                {item.name}
-              </NavLink>
-            </>
+            <NavLink
+              key={item.id}
+              to={item.to}
+              className={({ isActive }) =>
+                [
+                  isActive
+                    ? "text-black flex flex-row items-center gap-2"
+                    : " flex flex-row items-center gap-2",
+                ].join("")
+              }
+            >
+              <item.icon />
+              {item.name}
+            </NavLink>
           ))}
         </div>
         <div className="px-5 pb-3">

@@ -10,13 +10,12 @@ export const Register = () => {
 
   const [modal, setModal] = useState<boolean>(false);
 
-  const useRegister = async (id: number) => {
+  const useRegister = async () => {
     try {
       if (password !== confirmPassword) {
-        console.log(id);
         return console.log("password does not match");
       }
-      const res = await fetch(`http://localhost:8080/users/${id}`, {
+      const res = await fetch(`http://localhost:8080/auth/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -24,6 +23,7 @@ export const Register = () => {
         body: JSON.stringify({
           username: userName,
           password: password,
+          id: Date.now(),
         }),
       });
       if (!res.ok) {
@@ -40,7 +40,7 @@ export const Register = () => {
   };
 
   return (
-    <div className="flex bg-back min-h-screen flex-col justify-center items-center">
+    <div className="flex bg-[var(--background)] min-h-screen flex-col justify-center items-center">
       <p className="text-3xl font-bold text-center mb-6 text-white">
         Procrasti<span className="text-[#FF6166]">QUEST</span>
       </p>
@@ -82,8 +82,8 @@ export const Register = () => {
               type="button"
               onClick={(e) => {
                 e.preventDefault();
-                const uid = Date.now();
-                useRegister(uid);
+
+                useRegister();
               }}
               className="bg-[#7F5AF0] py-2 px-7 rounded-2xl cursor-pointer text-white font-bold w-2xs"
             >
