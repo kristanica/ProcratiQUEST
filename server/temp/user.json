@@ -1,1 +1,16 @@
-[{ "id": 1752216055520, "username": "lain", "password": "lain" }]
+[
+  { "id": 1752216055520, "username": "lain", "password": "lain" },
+  { "id": 123456, "username": "KRSITANICAURR", "password": "lain" },
+  {
+    "id": 1752303036055,
+    "username": "LAINLAIN",
+    "password": "a3f4d29d508acf1ef73c0b9f7735c731a4b94c2b65a39745b73b0fcc90e71a8cd6694cdc9ec971d9d74b2b73cd7327999358884574aa239e23025f909f1d0fe1",
+    "salt": "9539c8cdb6291fec297a94008e5f27c8"
+  },
+  {
+    "id": 1752304125972,
+    "username": "pokemon123",
+    "password": "c2c5db646da36f075d76c45dff0edbfbfc78a789776ce12dba5a961b0be82b12f72a49e9750d98811799645751b2401425c764ea982bfca5b5a8a3e60caaaa30",
+    "salt": "49b8c8cdbda08a7949cb41a327c46bea"
+  }
+]

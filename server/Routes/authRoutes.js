@@ -1,11 +1,15 @@
 const express = require("express");
 const fs = require("fs");
 
+const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
+
 const router = express.Router();
 
 router.post("/register", (req, res) => {
   const { id, username, password } = req.body;
 
+  const { salt, hashPassword } = createHash(password);
   if (!username || !password || !id) {
     return res.status(400).send({ message: "You do not have a name!" });
   }
@@ -31,7 +35,7 @@ router.post("/register", (req, res) => {
     }
     //newUser
 
-    const newRegister = { id, username, password };
+    const newRegister = { id, username, password: hashPassword, salt };
     user.push(newRegister);
     fs.readFile("./temp/userData.json", "utf8", (err, rawUserData) => {
       if (err) {
@@ -78,7 +82,7 @@ router.post("/register", (req, res) => {
 });
 
 router.post("/login", (req, res) => {
-  const { username } = req.body;
+  const { username, password } = req.body;
 
   fs.readFile("./temp/user.json", "utf8", (err, data) => {
     if (err) {
@@ -93,9 +97,17 @@ router.post("/login", (req, res) => {
       console.log(err);
     }
     const existingUser = user.find((data) => data.username === username);
-
     if (!existingUser) {
       return res.status(404).send({ message: "User not found!" });
+    }
+    const isHash = checkHash(
+      password,
+      existingUser.salt,
+      existingUser.password
+    );
+
+    if (!isHash) {
+      return res.status(404).json({ message: "password does not match" });
     }
 
     fs.readFile("./temp/userData.json", "utf8", (err, userData) => {
@@ -111,6 +123,7 @@ router.post("/login", (req, res) => {
       }
 
       const existingUserData = temp.find((data) => data.id === existingUser.id);
+
       res.send({
         message: "sucesful login!",
         user: {
@@ -121,4 +134,15 @@ router.post("/login", (req, res) => {
   });
 });
 
+function createHash(password) {
+  const salt = crypto.randomBytes(16).toString("hex");
+  const hashPassword = crypto.scryptSync(password, salt, 64).toString("hex");
+
+  return { salt, hashPassword };
+}
+
+function checkHash(password, salt, existingPassword) {
+  const hashPassword = crypto.scryptSync(password, salt, 64).toString("hex");
+  return hashPassword === existingPassword;
+}
 module.exports = router;
